@@ -9,7 +9,6 @@ function App() {
     <Header />
     <TodoPanel />
   </div>
-  // console.log("")
   )
 }
 

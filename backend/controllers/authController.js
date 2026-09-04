@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
-
+import User from '../models/User.js'
 // Helper function to issue JWT and set secure cookie
 const sendTokenResponse = (user, statusCode, res, message = 'Success') => {
   const token = jwt.sign(

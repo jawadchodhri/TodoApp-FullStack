@@ -1,7 +1,16 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Get raw URL or fallback to localhost
+let rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// 1. Remove any trailing slashes
+rawUrl = rawUrl.replace(/\/+$/, '');
+
+// 2. Automatically append /api if it was left off
+const API_BASE_URL = rawUrl.endsWith('/api') ? rawUrl : `${rawUrl}/api`;
 
 export async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint}`;
+  // Ensure endpoint starts with a single slash
+  const formattedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE_URL}${formattedEndpoint}`;
 
   const defaultHeaders = {
     'Content-Type': 'application/json',

@@ -80,16 +80,3 @@ A full-stack, responsive task management and productivity application built with
 | `PATCH` | `/api/todos/:id/toggle` | Private | Toggle task completion status |
 | `DELETE` | `/api/todos/:id` | Private | Delete a task |
 | `GET` | `/api/todos/stats` | Private | Get live count statistics |
-
----
-
-## 🚀 Getting Started Locally
-
-### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher)
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account (or local MongoDB)
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/YOUR_USERNAME/todoapp-fullstack.git
-cd todoapp-fullstack

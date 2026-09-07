@@ -7,7 +7,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Check if user is already logged in on initial load
   useEffect(() => {
     checkAuth();
   }, []);
@@ -15,9 +14,16 @@ export function AuthProvider({ children }) {
   async function checkAuth() {
     try {
       setLoading(true);
+      const token = localStorage.getItem('todo_token');
+      // If no token exists locally, skip verification
+      if (!token) {
+        setUser(null);
+        return;
+      }
       const data = await apiRequest('/auth/me');
       setUser(data.user);
     } catch (err) {
+      localStorage.removeItem('todo_token');
       setUser(null);
     } finally {
       setLoading(false);
@@ -29,6 +35,9 @@ export function AuthProvider({ children }) {
       method: 'POST',
       body: { email, password },
     });
+    if (data.token) {
+      localStorage.setItem('todo_token', data.token);
+    }
     setUser(data.user);
     return data;
   }
@@ -38,6 +47,9 @@ export function AuthProvider({ children }) {
       method: 'POST',
       body: { name, email, password },
     });
+    if (data.token) {
+      localStorage.setItem('todo_token', data.token);
+    }
     setUser(data.user);
     return data;
   }
@@ -45,7 +57,10 @@ export function AuthProvider({ children }) {
   async function logout() {
     try {
       await apiRequest('/auth/logout', { method: 'POST' });
+    } catch (e) {
+      // ignore logout error
     } finally {
+      localStorage.removeItem('todo_token');
       setUser(null);
     }
   }
